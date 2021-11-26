@@ -1,0 +1,45 @@
+Q. Find the all posible pair of a string.
+
+EX : ABC 
+
+Output : 
+ABC
+ACB
+BAC
+BCA
+CBA
+CAB
+
+import java.io.*;
+
+class GFG {
+    
+    static int count = 0;
+    void per(String str, int index)
+    {
+        count++;
+        if(index == str.length()-1)
+        {
+            System.out.println(str);
+            return;
+        }
+        for(int i=index; i<str.length(); i++)
+        {
+            str = swap(str, i, index);
+            per(str, index+1);
+            str = swap(str, i, index);
+        }
+    }
+    String swap(String str, int i, int j)
+    {
+        StringBuilder sb = new StringBuilder(str);
+        sb.setCharAt(i, str.charAt(j));
+        sb.setCharAt(j, str.charAt(i));
+        return sb.toString();
+    }
+    
+	public static void main (String[] args) {
+		new GFG().per("ABC", 0);
+		System.out.println(count);
+	}
+}

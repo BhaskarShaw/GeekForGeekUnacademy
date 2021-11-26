@@ -1,0 +1,58 @@
+TC : O( 7^(N^2-(4N-4)) X 4^(4N-4) )
+
+import java.io.*;
+import java.util.Arrays;
+class GFG {
+	public static void main (String[] args) {
+		
+		int n = 5;
+		int[][] res = new int[n][n];
+		int[] xAxis = new int[]{-2, -2, -1, -1, 1, 1, 2, 2};
+		int[] yAxis = new int[]{1, -1, 2, -2, 2, -2, 1, -1};
+		for(int[] arr : res)
+		{
+            Arrays.fill(arr, -1);
+		}
+		knight(n, res, 0, xAxis, yAxis, 0, 0);
+		
+	}
+	static void knight(int n, int[][] res, int count, int[] xAxis, int[] yAxis, int i, int j)
+	{
+	    if(count == (n*n-1))
+	    {
+	        res[i][j] = count;
+	        for(int[] arr : res)
+        	{
+        	    for(int a : arr)
+        	        System.out.print(a+"  ");
+                System.out.println();
+        	}
+        	System.out.println();
+        	res[i][j] = -1;
+            return;
+	    }
+	    //System.out.println("Count: "+ count);
+	    if(count>= n*n)
+	        return;
+	   res[i][j] = count;
+        for(int k=0; k<8; k++)
+        {
+            //System.out.println("i= "+i+"  j= "+j);
+            i = i+yAxis[k];
+            j = j+xAxis[k];
+            if(isValid(n, res, i, j))
+            {
+                knight(n, res, count+1, xAxis, yAxis, i, j);
+            }
+            i = i-yAxis[k];
+            j = j-xAxis[k];
+        }
+        res[i][j] = -1;
+	}
+	static boolean isValid(int n, int[][] res, int i, int j)
+	{
+	    if(i<0 || j<0 || j>=n || i>=n || res[i][j] != -1)
+	        return false;
+        return true;
+	}
+}

@@ -1,0 +1,90 @@
+Given integers M, N and K, the task is to place K knights on an M*N chessboard such that they don’t attack each other.
+The knights are expected to be placed on different squares on the board. 
+A knight can move two squares vertically and one square horizontally or two squares horizontally and one square vertically. 
+The knights attack each other if one of them can reach the other in single move. 
+There are multiple ways of placing K knights on an M*N board or sometimes, no way of placing them. We are expected to list out all the possible solutions.
+
+Input: M = 3, N = 3, K = 5
+Output:
+K A K
+A K A
+K A K
+
+A K A
+K K K
+A K A
+
+Total number of solutions : 2
+
+Input: M = 5, N = 5, K = 13
+Output:
+K A K A K
+A K A K A
+K A K A K
+A K A K A
+K A K A K
+
+Total number of solutions : 1
+
+ANSWER : 
+
+import java.io.*;
+
+class GFG {
+    static int c = 0;
+	public static void main (String[] args) {
+	    int n = 5;
+	    int k = 13;
+	    int[][] check = new int[n][n];
+		knight(check, n, k, 0, 0, 0);
+		System.out.println(c);
+	}
+	static void knight(int[][] check, int n, int k, int count, int row, int col)
+	{
+	    
+	    if(count == k)
+	    {
+	        c++;
+	        print(check);
+	        return;
+	    }
+	    for(int i=row; i<n; i++)
+	    {
+	        for(int j=(i==row)?col:0; j<n; j++)
+	        {
+	            if(isValid(check, i, j, n))
+	            {
+	                check[i][j] = 1;
+	                knight(check, n, k, count+1, i, j+1);
+	                check[i][j] = 0;
+	            }
+	        }
+	    }
+	}
+	static boolean isValid(int[][] check, int i, int j, int n)
+	{
+	    if( i-1>=0 && j-2>=0 && check[i-1][j-2] == 1 )
+	        return false;
+	    if( i-2>=0 && j-1>=0 && check[i-2][j-1] == 1 )
+	        return false;
+	    if( i-1>=0 && j+2<n && check[i-1][j+2] == 1 )
+	        return false;
+	    if( i-2>=0 && j+1<n && check[i-2][j+1] == 1 )
+	        return false;
+        return true;
+	}
+	static void print(int[][] check)
+	{
+	    for(int[] arr : check)
+	    {
+	        for(int a : arr)
+	            if(a==1)
+	                System.out.print("K ");
+	            else
+	                System.out.print(". ");
+            System.out.println();	       
+	    }
+	    System.out.println();
+	    System.out.println();
+	}
+}
